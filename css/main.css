@@ -1,0 +1,77 @@
+* {
+  box-sizing: border-box;
+}
+body{
+    text-align: center;
+    background-color: antiquewhite;
+}
+table {
+    border: 1px grey solid;
+
+    table-layout: fixed;
+  margin: auto;
+  background-color: rgb(100, 87, 87);
+  overflow: hidden;
+
+  /* border-collapse: collapse; */
+  /* border-spacing: 10px; */
+}
+h1{
+    display: inline;
+}
+.the-game{
+    min-width: 475px;
+    min-height: 177px;
+    height: 490px;
+    width: 475px;
+    margin: auto;
+    margin-top: 80px;
+}
+td {
+  /* border: 3px solid  rgba(44, 41, 41, 0.199); */
+
+  overflow: hidden;
+  width: 35px;
+  height: 35px;
+  text-align: center;
+  
+  background-color: rgb(94, 87, 87);
+  border-left: 5px solid rgb(153, 147, 147);
+  border-top: 5px solid rgb(153, 147, 147);
+  font-size: 0;
+  border-right: 5px solid rgb(77, 67, 67);
+  border-bottom: 5px solid rgb(44, 42, 42);
+  padding: 0;
+}
+/* table tr:nth-child(even) td:nth-child(even),
+table tr:nth-child(odd) td:nth-child(odd){
+    
+} */
+.flaggd{
+    font-size: 10px;
+    
+
+}
+.visable-cell {
+  border: 5px solid transparent;
+  font-size: 100%;
+}
+.options{
+    height: 45px;
+}
+.smiley{
+display: block;
+margin: auto;
+text-align: center;
+font-size: 20px;
+width: 40px;
+height: 30px;
+padding: 2px;
+}
+.hp{
+  font-size: 30px;
+  display: block;
+}
+.hints{
+  font-size: 30px;
+}
