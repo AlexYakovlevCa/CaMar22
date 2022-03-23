@@ -30,6 +30,7 @@ function restart() {
   gGame.shownCount = 0;
   gGame.life = 3;
   gGame.hints = 3;
+  checkHints()
   checkLife();
   init();
 }
