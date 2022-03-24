@@ -7,27 +7,33 @@
     <link rel="stylesheet" href="css/main.css" />
     <title>Mines</title>
   </head>
-  <body onload="init()">
+  <body onload="initGame()">
     <div class="the-game">
       <div class="options">
-        <span onclick="difficulty(this,4,2)">4x4</span>
-        <span onclick="difficulty(this,8,12)">8x8</span>
-        <span onclick="difficulty(this,12,30)">12x12</span>
-        <span onclick="difficulty(this)">Custom</span>
+        <button class="difficulty" onclick="difficulty(this,4,2)">4x4</button>
+        <button class="difficulty" onclick="difficulty(this,8,12)">8x8</button>
+        <button class="difficulty" onclick="difficulty(this,12,30)">12x12</button>
+        <button class="difficulty" onclick="difficulty(this)">Custom</button>
       </div>
       <div class="hp-hints">
         <span class="hp">💖 💖 💖</span>
         <span onclick="hintSos()" class="hints">🆘 🆘 🆘</span>
       </div>
-      <h1 class="flag-count">00</h1>
+      <h2 class="best-time">best-time</h2>
+      <h1 class="flag-count">00<span class="im-a-flag">🚩</span></h1>
+      <button class="safe-click" onclick="safeClick()">🔍<span class="safe-count"></span></button>
       <h1 class="timer">00:00</h1>
-      <button class="smiley" onclick="restart()">🙂</button>
+      <div class="general-buttons">
+      <button title="Shamur le dodaSha" class="smiley" onclick="restart()">🙂</button>
+      <button class="undo" onclick="undo()">&#8634;</button>
+    </div>
       <div class="container"></div>
     </div>
     <script src="js/utils.js"></script>
     <script src="js/Mines.js"></script>
     <script src="js/RecursinNegs.js"></script>
     <script src="js/clickFunctions.js"></script>
+    <script src="js/Undo.js"></script>
     <script src="js/main.js"></script>
   </body>
 </html>

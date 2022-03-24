@@ -29,18 +29,20 @@ function restart() {
   gGame.flagsCount = gLevel.minesCount;
   gGame.shownCount = 0;
   gGame.life = 3;
+  gGame.safeClicks= 3;
   gGame.hints = 3;
-  checkHints()
   checkLife();
-  init();
+  checkHints();
+  initGame();
 }
 function hintIsOn(idxI, idxJ) {
   for (var i = idxI - 1; i <= idxI + 1; i++) {
     if (i < 0 || i > gBoard.length - 1) continue;
     for (var j = idxJ - 1; j <= idxJ + 1; j++) {
-        // if (i === idxI && j === idxJ) continue;
+      // if (i === idxI && j === idxJ) continue;
       if (j < 0 || j > gBoard.length - 1) continue;
-    //  if(document.querySelector(`.cell-${i}-${j}`).contains(visable-cell))continue
+      if (gBoard[i][j].isSeen) continue;
+      //  if(document.querySelector(`.cell-${i}-${j}`).contains(visable-cell))continue
       document.querySelector(`.cell-${i}-${j}`).classList.add('visable-cell');
       // 8
     }
@@ -53,9 +55,12 @@ function hintIsOff(idxI, idxJ) {
     if (i < 0 || i > gBoard.length - 1) continue;
 
     for (var j = idxJ - 1; j <= idxJ + 1; j++) {
-        // if (i === idxI && j === idxJ) continue;
+      // if (i === idxI && j === idxJ) continue;
       if (j < 0 || j > gBoard.length - 1) continue;
-      document.querySelector(`.cell-${i}-${j}`).classList.remove('visable-cell');
+      if (gBoard[i][j].isSeen) continue;
+      document
+        .querySelector(`.cell-${i}-${j}`)
+        .classList.remove('visable-cell');
       // 8
     }
   }
@@ -63,38 +68,40 @@ function hintIsOff(idxI, idxJ) {
 
 function leftClick(elCell, i, j) {
   if (gGame.gameDone) return;
-  
+
   if (!gGame.isOn) {
-      gGame.isOn = true;
-      gBoard = null;
-      gBoard = buildBoard(i, j);
-      setMinesNegsCount(gBoard);
-      printMat(gBoard, '.container');
-      // var clickdPos = {i,j}
-      document.querySelector(`.cell-${i}-${j}`).classList.add('visable-cell');
-      gStartTime = Date.now();
-      gameStartinter = setInterval(gameTime, 1000);
-    }
-    
-    if (gIsHint) {
-      console.log('heyy');
-      hintIsOn(i, j);
-      setTimeout(hintIsOff, 1000, i, j);
-  
-      return;
-    }
+    gGame.isOn = true;
+    gBoard = null;
+    gBoard = buildBoard(i, j);
+    setMinesNegsCount(gBoard);
+    printMat(gBoard, '.container');
+    // var clickdPos = {i,j}
+    document.querySelector(`.cell-${i}-${j}`).classList.add('visable-cell');
+    gStartTime = Date.now();
+    gameStartinter = setInterval(gameTime, 1000);
+  }
+
+  if (gIsHint) {
+    console.log('heyy');
+    hintIsOn(i, j);
+    setTimeout(hintIsOff, 1000, i, j);
+
+    return;
+  }
   var cell = gBoard[i][j];
   var location = { i, j };
   if (cell.isFlaggd) return;
   if (cell.isSeen) return;
 
   cell.isSeen = true;
-
+Undo.push([cell])
   elCell.classList.add('visable-cell');
 
   if (cell.isMine === true) renderCell(location, MINE);
   if (cell.isMine === true && gGame.life > 0) {
     gGame.life--;
+    if(cell.isMine&&flagsCount>0)    gGame.flagsCount--;
+
     checkLife();
   }
   if (cell.isMine && gGame.life === 0) {
@@ -131,7 +138,7 @@ function rightClick(elCell, i, j) {
   if (cell.isFlaggd === false) gGame.flagsCount++;
   if (cell.isFlaggd === true) gGame.flagsCount--;
   //   checkWin()
-  elFlagCounter.innerText = gGame.flagsCount;
+  elFlagCounter.innerText = gGame.flagsCount+FLAG
 
   if (cell.isFlaggd) valeRender = FLAG;
   if (!cell.isFlaggd && cell.isMine) valeRender = FLAG;
@@ -139,4 +146,27 @@ function rightClick(elCell, i, j) {
   cell.isFlaggd === false
     ? renderCell(location, valeRender)
     : renderCell(location, valeRender);
+  checkWin();
+}
+function safeClick() {
+  if(gGame.safeClicks===0)return
+  gGame.safeClicks--;
+  var loop = 1
+
+  for (var i = 0; i< gLevel.boardSize&&loop>0; i++) {
+    console.log('inside loop',i);
+    for(var j = 0;j<gLevel.boardSize&&loop>0;j++){
+      var cell = gBoard[i][j]
+      if(cell.isFlaggd||cell.isMine||cell.isSeen) continue
+      
+      document.querySelector(`.cell-${i}-${j}`).classList.add('safefor-click')
+      loop--
+    }
+  }
+  setTimeout(() => {
+    document.querySelector(`.cell-${i-1}-${j-1}`).classList.remove('safefor-click')
+  }, 1000);
+    
+
+  elSafeclickCount.innerText = gGame.safeClicks;
 }

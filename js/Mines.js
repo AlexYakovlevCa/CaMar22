@@ -1,5 +1,5 @@
 
-function setBombs(board,clickIdxI,clickIdxJ){
+function setMines(board,clickIdxI,clickIdxJ){
 //gets a board and places random bombs on the amount of Glevel 
 // for(var i = 0;i<gLevel.minesCount;i++){
 var minePlacement= 0

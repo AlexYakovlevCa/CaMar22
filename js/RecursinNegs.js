@@ -10,7 +10,8 @@ function getNeighborsPickedCell(mat, idxI, idxJ) {
   if (mat[idxI][idxJ].minesAround > 0) return;
   if (mat[idxI][idxJ].isMine) return;
   //   console.log(mat, idxI, idxJ);
-  var neightbors = [];                                 
+  var neightbors = [];   
+  // var undoTurns = []                              
   mat[idxI][idxJ].isSeen = true;                   
   mat[idxI][idxJ].isRec = true                      
                                                                                                             
@@ -24,15 +25,23 @@ function getNeighborsPickedCell(mat, idxI, idxJ) {
       var cell = mat[i][j];
       var location = { i, j };
       if (cell.isMine) continue;  
+      if(cell.isSeen) continue
       cell.isSeen = true;
       
       var elCell = renderCell(location, cell.minesAround);
       elCell.classList.add('visable-cell');
-      if (cell.minesAround===EMPTY&&cell.isRec===false) neightbors.push(cell)
+      // undoTurns.push(cell)
+      Undo[Undo.length-1].push(cell)
+      if (cell.minesAround===EMPTY&&cell.isRec===false) {
+        neightbors.push(cell)
+
+      }
        
     
     }
   }
+
+  // undoTurns = [] 
 //   console.log(neightbors);
   for(var k = 0;k<neightbors.length;k++){
       neightbors[k].isRec = true

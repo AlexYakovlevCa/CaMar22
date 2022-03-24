@@ -90,9 +90,9 @@ function printMat(mat, selector) {
     for (var j = 0; j < mat.length; j++) {
       var cell = mat[i][j];
       tdValue = cell.minesAround
-      if(cell.isMine) tdValue = MINE
       if(cell.minesAround === 0) tdValue = EMPTY
       if(cell.minesAround===0) cell.minesAround = EMPTY
+      if(cell.isMine) tdValue = MINE
 
       var className = `cell-${i}-${j}`;
       strHTML += `<td style = "color:${COLORS[cell.minesAround]}" oncontextmenu="rightClick(this,${i},${j})" onclick="leftClick(this,${i},${j})" class="${className}"> ${tdValue}</td>`;
