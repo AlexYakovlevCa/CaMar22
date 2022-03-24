@@ -4,7 +4,7 @@
 body{
     text-align: center;
     background-color: antiquewhite;
-    background-image: url(gaming.jpg);
+    background-image: url('../gaming.jpg');
     background-position: center;
     background-repeat:no-repeat;
     background-size: cover;
